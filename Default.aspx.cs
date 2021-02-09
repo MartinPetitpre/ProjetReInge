@@ -12,6 +12,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Projet
 {
@@ -192,7 +193,7 @@ namespace Projet
 
             string PARAMS_INTEROP =
                   "Data Source = (LocalDB)\\MSSQLLocalDB;" +
-                    "AttachDbFilename = C:\\Users\\marti\\source\\repos\\Projet\\App_Data\\Database1.mdf;" +
+                    "AttachDbFilename = C:\\Users\\marti\\source\\repos\\Projet\\App_Data\\bdProjet.mdf;" +
                      "Integrated Security = True";
             // "AttachDbFilename = C:\\Users\\Henri Basson\\source\\repos\\SQLDB2\\SQLDB2\\App_Data\\Database2.mdf;" +
 
@@ -202,8 +203,20 @@ namespace Projet
             connection.Open();
             Response.Write("<br> connection " + connection.ServerVersion);
             Response.Write("<br> connection " + connection.State);
-            string TABLE_CONCERNEE = "CLIENT";
-            string REQ_SQL = "SELECT[Num_CLIENT], [Nom_CLIENT], [Ville_CLIENT] FROM[" + TABLE_CONCERNEE + "]";
+            string TABLE_CONCERNEE = "TableProjet";
+            string REQ_SQL = "SELECT[id], [nom], [prenom] FROM[" + TABLE_CONCERNEE + "]";
+
+
+            SqlDataAdapter dataAdapt = new SqlDataAdapter(REQ_SQL, connection);
+
+            DataSet ds = new DataSet();
+
+            dataAdapt.Fill(ds, "individu");
+
+            ds.WriteXml("C:\\Users\\marti\\Desktop\\projet_reinge\\sql_xml.xml");
+
+
+
 
             using (SqlDataAdapter adaptateur = new SqlDataAdapter(
                     REQ_SQL, connection))

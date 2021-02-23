@@ -60,6 +60,15 @@ namespace Projet
         protected global::System.Web.UI.WebControls.Button Button2;
 
         /// <summary>
+        /// Contrôle Button4.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button4;
+
+        /// <summary>
         /// Contrôle Button3.
         /// </summary>
         /// <remarks>

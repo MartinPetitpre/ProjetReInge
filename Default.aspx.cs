@@ -18,6 +18,10 @@ namespace Projet
 {
     public partial class _Default : Page
     {
+        //modifier le chemin ci dessous avec celui de l'emplacement du dossier projet_reinge sur votre machine
+        string path = "C:\\Users\\marti\\Desktop\\projet_reinge\\";
+        //modifier ce chemin avec celui de l'emplacement du projet (utile à la ligne 172 pour la connexion à la bd)
+        string pathBD = "C:\\Users\\marti\\source\\repos\\";
         string nom;
         string prenom;
         string nullStr = "";
@@ -35,7 +39,7 @@ namespace Projet
             int i = 0;
 
             String Fournisseur = "Provider=Microsoft.Jet.OLEDB.4.0";
-            String Adresse_Donnees = "Data Source=C:\\Users\\marti\\Desktop\\projet_reinge\\excel_projet.xls";
+            String Adresse_Donnees = "Data Source="+ path + "excel_projet.xls";
             // TMP_EXCl_DEC2015.xls";
 
             String Outils_Concernes = " Extended Properties=Excel 8.0";
@@ -93,7 +97,7 @@ namespace Projet
 
             }
 
-            using (XmlWriter writer = XmlWriter.Create("C:\\Users\\marti\\Desktop\\projet_reinge\\excel_xml.xml"))
+            using (XmlWriter writer = XmlWriter.Create(path + "excel_xml.xml"))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("PROJET");
@@ -124,7 +128,7 @@ namespace Projet
             // Objet de Connexion avec la Base de Données
             OleDbConnection objConn = new OleDbConnection
                 ("Provider=Microsoft.ACE.OLEDB.12.0;" +
-                "Data Source=C:\\Users\\marti\\Desktop\\projet_reinge\\access_projet.accdb");
+                "Data Source="+ path + "access_projet.accdb");
 
             objConn.Open();
 
@@ -136,7 +140,7 @@ namespace Projet
             adaptateur.Fill(Grand_Set, "projet");
             DataTable dt = Grand_Set.Tables[0];
             // Création de fichier XML qui sera initié avec la variable writer de type   XmlWriter
-            using (XmlWriter writer = XmlWriter.Create("C:\\Users\\marti\\Desktop\\projet_reinge\\access_xml.xml"))
+            using (XmlWriter writer = XmlWriter.Create(path + "access_xml.xml"))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("PROJET");
@@ -159,43 +163,15 @@ namespace Projet
 
                 writer.WriteEndDocument();
             }
-            // Affichage des valeurs des données dans une table XML
-
-            /*OleDbDataReader objReader;
-
-            objReader = objCmd.ExecuteReader();
-
-            Response.Write("<center><table cellpadding=5 cellspacing=5 bgcolor=lightblue border=4>");
-            Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetName(0) + "</td>");
-            Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetName(1) + "</td>");
-            Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetName(2) + "</td>");
-            // Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetName(3) + "</td>");
-            // Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetName(4) + "</td>");
-
-            while (objReader.Read())
-            {
-                Response.Write("<tr>");
-                Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetInt16(0) + "</td>");
-                Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetString(1) + "</td>");
-                Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetString(2) + "</td>");
-                // Response.Write("<td align=center> <font size=+3 color=green>" + "Date Quelconque" + "</td>");
-                // Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetDateTime(3) + "</td>");
-                //Response.Write("<td align=center> <font size=+3 color=green>" + objReader.GetString(4) + "</td>");
-            }
-            Response.Write("</table></center>");
-            objConn.Close();*/
-
         }
 
         protected void OpenSqlConnection(object sender, EventArgs e)
         {
-            // C:\Users\Henri Basson\source\repos\SQL1SRV\App_Data\Database1.mdf
 
             string PARAMS_INTEROP =
                   "Data Source = (LocalDB)\\MSSQLLocalDB;" +
-                    "AttachDbFilename = C:\\Users\\marti\\source\\repos\\Projet\\App_Data\\bdProjet.mdf;" +
+                    "AttachDbFilename = "+ pathBD + "Projet\\App_Data\\bdProjet.mdf;" +
                      "Integrated Security = True";
-            // "AttachDbFilename = C:\\Users\\Henri Basson\\source\\repos\\SQLDB2\\SQLDB2\\App_Data\\Database2.mdf;" +
 
             SqlConnection connection = new SqlConnection(PARAMS_INTEROP);
 
@@ -213,7 +189,7 @@ namespace Projet
 
             dataAdapt.Fill(ds, "individu");
 
-            ds.WriteXml("C:\\Users\\marti\\Desktop\\projet_reinge\\sql_xml.xml");
+            ds.WriteXml(path + "sql_xml.xml");
 
 
 
@@ -248,6 +224,21 @@ namespace Projet
                 Response.Write("<table>");
                 Response.Write("<center>");
             }
+
+        }
+
+        protected void fusion_xml(Object Sender, EventArgs e)
+        {
+            XElement xFileRoot = XElement.Load(path + "access_xml.xml");
+            XElement xFileChild = XElement.Load(path + "excel_xml.xml");
+            XElement xFileChild2 = XElement.Load(path + "sql_xml.xml");
+
+            xFileRoot.Add(xFileChild);
+            xFileRoot.Add(xFileChild2);
+            xFileRoot.Save(path + "fusion_xml.xml");
+
+
+
 
         }
 

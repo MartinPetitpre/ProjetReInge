@@ -16,6 +16,7 @@
                     <tr>
                     <td colspan="2" align="center"><asp:button id="Button" Text="Générer_XML depuis fichier access " OnClick="access_Vers_XML" runat="server" /></td></tr>
                     <td colspan="2" align="center"><asp:button id="Button2" Text="Générer_XML depuis fichier excel " OnClick="excel_Vers_XML" runat="server" /></td></tr>
+                    <td colspan="2" align="center"><asp:button id="Button4" Text="Fusionner les fichiers XML générés avec les boutons précédents " OnClick="fusion_xml" runat="server" /></td></tr>
                 </table>				
             </center>
 
